@@ -27,6 +27,11 @@ export class SocketGateway implements OnGatewayConnection, OnGatewayDisconnect {
 
     this.broadcastUsers();
     this.server.emit('userConnected', { message: 'New client connected', clientId: client.id, user });
+
+    // Listen for 'sendMessage' event
+    client.on('sendMessage', (data: { message: string }) => {
+      this.handleReceivedMessage(client, data);
+    });
   }
 
   /**
@@ -59,4 +64,25 @@ export class SocketGateway implements OnGatewayConnection, OnGatewayDisconnect {
       position: user.position,
     })));
   }
+
+  /**
+   * handleReceivedMessage
+   */
+  private handleReceivedMessage(client: Socket, data: { message: string }) {
+    const sender = this.users.find(user => user.id === client.id);
+
+    console.log('Received message from client:', data.message);
+    console.log('senderId:', sender.id);
+    console.log('User:', sender.name);
+
+    // Find the user who sent the message
+
+    if (sender) {
+      // Broadcast the message along with the sender's id
+      this.server.emit('message', { message: data.message, senderId: sender.id, username: sender.username });
+    } else {
+      console.error('Sender not found');
+    }
+  }
+
 }
