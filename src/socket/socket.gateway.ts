@@ -46,6 +46,7 @@ export class SocketGateway implements OnGatewayConnection, OnGatewayDisconnect {
     return {
       x: Math.floor(Math.random() * (800 - 50 + 1) + 50),
       y: Math.floor(Math.random() * (600 - 50 + 1) + 50),
+      z: Math.floor(Math.random() * (600 - 50 + 1) + 50),
     };
   }
 
