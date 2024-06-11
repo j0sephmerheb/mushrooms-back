@@ -2,6 +2,7 @@
 import { WebSocketServer, WebSocketGateway, OnGatewayConnection, OnGatewayDisconnect } from '@nestjs/websockets';
 import { Server, Socket } from 'socket.io';
 import { Injectable } from '@nestjs/common';
+import User from 'src/models/User';
 
 @WebSocketGateway({ cors: { origin: '*' } })
 @Injectable()
@@ -9,14 +10,14 @@ export class SocketGateway implements OnGatewayConnection, OnGatewayDisconnect {
   @WebSocketServer()
   server: Server;
 
-  private users = [];
+  private users: User[] = [];
   private userCounter = 0;
 
   /**
    * handleConnection
    */
   handleConnection(client: Socket) {
-    const user = {
+    const user: User = {
       id: client.id,
       username: `User-${++this.userCounter}`,
       position: this.getRandomPosition(),
@@ -24,7 +25,7 @@ export class SocketGateway implements OnGatewayConnection, OnGatewayDisconnect {
     this.users.push(user);
 
     console.log('Client connected:', client.id, 'as', user.username);
-
+    
     this.broadcastUsers();
     this.server.emit('userConnected', { message: 'New client connected', clientId: client.id, user });
 
@@ -72,9 +73,6 @@ export class SocketGateway implements OnGatewayConnection, OnGatewayDisconnect {
   private handleReceivedMessage(client: Socket, data: { message: string }) {
     const sender = this.users.find(user => user.id === client.id);
 
-    console.log('Received message from client:', data.message);
-    console.log('senderId:', sender.id);
-    console.log('User:', sender.name);
 
     // Find the user who sent the message
 
