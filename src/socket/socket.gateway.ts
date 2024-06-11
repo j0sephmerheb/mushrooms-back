@@ -60,6 +60,7 @@ export class SocketGateway implements OnGatewayConnection, OnGatewayDisconnect {
    */
   private broadcastUsers() {
     this.server.emit('users', this.users.map(user => ({
+      id: user.id,
       username: user.username,
       position: user.position,
     })));
