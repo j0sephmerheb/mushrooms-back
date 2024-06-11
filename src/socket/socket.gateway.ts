@@ -49,9 +49,9 @@ export class SocketGateway implements OnGatewayConnection, OnGatewayDisconnect {
    */
   private getRandomPosition() {
     return {
-      x: Math.floor(Math.random() * (800 - 50 + 1) + 50),
-      y: Math.floor(Math.random() * (600 - 50 + 1) + 50),
-      z: Math.floor(Math.random() * (600 - 50 + 1) + 50),
+      x: Math.floor(Math.random() * (1920 - 20 + 1) + 20),
+      y: Math.floor(Math.random() * (1080 - 20 + 1) + 20),
+      z: Math.floor(Math.random() * (600 - 20 + 1) + 20),
     };
   }
 
@@ -79,7 +79,7 @@ export class SocketGateway implements OnGatewayConnection, OnGatewayDisconnect {
 
     if (sender) {
       // Broadcast the message along with the sender's id
-      this.server.emit('message', { message: data.message, senderId: sender.id, username: sender.username });
+      this.server.emit('message', { text: data.message, senderId: sender.id });
     } else {
       console.error('Sender not found');
     }
