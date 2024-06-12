@@ -6,10 +6,10 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
   app.enableCors({
-    origin: 'https://mushrooms.josephmerheb.net',
+    origin: '*', // Allow all origins temporarily
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
     allowedHeaders: 'Content-Type, Authorization',
-    credentials: false, // Enable to send cookies or authentication headers
+    credentials: false,
   });
 
   await app.listen(3000);
