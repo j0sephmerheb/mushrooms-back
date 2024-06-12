@@ -9,7 +9,7 @@ export class CustomIoAdapter extends IoAdapter {
     super(app);
     this.options = {
       cors: {
-        origin: 'https://mushrooms.josephmerheb.net',
+        origin: '*',
         methods: ['GET', 'POST'],
         allowedHeaders: ['Content-Type', 'Authorization'],
         credentials: true, // Enable if you need to send cookies or authentication headers
