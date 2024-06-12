@@ -1,6 +1,7 @@
 // main.ts
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
+import { CustomIoAdapter } from './socket/io-adapter';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -11,6 +12,8 @@ async function bootstrap() {
     allowedHeaders: 'Content-Type, Authorization',
     credentials: false,
   });
+
+  app.useWebSocketAdapter(new CustomIoAdapter(app));
 
   await app.listen(3000);
 }
